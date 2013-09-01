@@ -1,23 +1,11 @@
-#
-# Makefile for msp430
-#
-# 'make' builds everything
-# 'make clean' deletes everything except source files and Makefile
-# You need to set TARGET, MCU and SOURCES for your project.
-# TARGET is the name of the executable file to be produced 
-# 
-TARGET     = gpio_test
-MCU        = msp430g2553
-# List all the source files here
-# eg if you have a source file foo.c then list it here
-SOURCES = gpio_test.c
-# Include are located in the Include directory
-INCLUDES = .
-# Add or subtract whatever MSPGCC flags you want. There are plenty more
+
+TARGET		= gpio_test
+mmcu		= msp430g2553
+OBJECTS 	= gpio_test.o gpio_api.o
 #######################################################################################
-CFLAGS   = -mmcu=$(MCU) -Os -I$(INCLUDES)
-ASFLAGS  = -mmcu=$(MCU) -Os -I$(INCLUDES)
-LDFLAGS  = -mmcu=$(MCU) -Os -I$(INCLUDES)
+CFLAGS   = -mmcu=$(MCU) -Os
+ASFLAGS  = -mmcu=$(MCU) -Os
+LDFLAGS  = -mmcu=$(MCU) -Os
 ########################################################################################
 CC       = msp430-gcc
 LD       = msp430-ld
@@ -36,22 +24,17 @@ CP       = cp -p
 RM       = rm -f
 MV       = mv
 ########################################################################################
-# all the object files
-OBJECTS = $(SOURCES:.c=.o)
-
-all: $(TARGET).elf
-
-$(TARGET).elf: $(TARGET).o
-	$(CC) $(CFLAGS) $(OBJECTS) $(LDFLAGS) -o $(TARGET).elf
+$(TARGET).elf: $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET).elf
 	$(OBJDUMP) -z -EL -D -W $(TARGET).elf >$(TARGET).lss
 	$(SIZE) $(TARGET).elf
 	$(OBJCOPY) -O ihex $(TARGET).elf $(TARGET).hex
 
+gpio_test.o: msp430_lib.h
+gpio_api.o: gpio_api.h
+
 install: all
 	mspdebug --force-reset rf2500 "prog $(TARGET).elf"
-
-cycle_count: all
-	naken430util -disasm $(TARGET).hex > $(TARGET)_cc.txt
 
 debug: all
 	clear

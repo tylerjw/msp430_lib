@@ -20,8 +20,8 @@ bool _validate_pin(int port, int pin)
 bool gpio_init (int port, int pin, int direction)
 {
     int nbit = ~(1 << pin);     // inverted bit mask
-    if(direction)
-        direction = ~bit;       // direction mask
+    if(direction != 0)
+        direction = (1 << pin);      // direction mask
 
     if (!_validate_pin(port,pin))
         return false;
@@ -30,14 +30,14 @@ bool gpio_init (int port, int pin, int direction)
     {
         P1SEL &= nbit;      // set as gpio
         P1SEL2 &= nbit;     // (0,0) = gpio pin
-        P1OUT &= nbit;      // set output to zero
+        P1OUT &= nbit;      // set output to zero (pull down)
         P1DIR |= direction; // set direction
     }
     else                    // port 2
     {
         P2SEL &= nbit;      // set as gpio
         P2SEL2 &= nbit;     // (0,0) = gpio pin
-        P2OUT &= nbit;      // set output to zero
+        P2OUT &= nbit;      // set output to zero (pull down)
         P2DIR |= direction; // set direction
     }
     return true;
@@ -46,7 +46,7 @@ bool gpio_init (int port, int pin, int direction)
 bool gpio_ioctl_pull_en(int port, int pin, int direction)
 {
     int mask = 1 << pin;    // mask for setting pin
-    if(direction)
+    if(direction != 0)
         direction = mask;
 
     if (!_validate_pin(port,pin))
@@ -62,12 +62,12 @@ bool gpio_ioctl_pull_en(int port, int pin, int direction)
         P2OUT |= direction;  // pull up/down
         P2REN |= mask;
     }
-    return true
+    return true;
 }
 
 bool gpio_write(int port, int pin, int value)
 {
-    if (value)              
+    if (value != 0)              
         value = 1 << pin;   // mask for setting pin
 
     if (!_validate_pin(port,pin))
@@ -75,7 +75,7 @@ bool gpio_write(int port, int pin, int value)
 
     if (port == 1)
         P1OUT |= value; // set output
-    else:               // port 2
+    else               // port 2
         P2OUT |= value; // set output
     return true;
 }
@@ -83,7 +83,7 @@ bool gpio_write(int port, int pin, int value)
 int  gpio_read (int port, int pin)
 {
     int mask = 1 << pin;
-    value = 0;
+    int value = 0;
 
     if (!_validate_pin(port,pin))
         return -1;

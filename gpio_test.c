@@ -1,11 +1,11 @@
 /* gpio_tests.c - for testing gpio library
  */
 
-#include  <msp430g2553.h>
 #include  "msp430_lib.h"
 
 void main(void)
 {
+    int led = 0;
     gpio_init(1,0,OUTPUT);      // red led
     gpio_init(1,6,OUTPUT);      // green led
     gpio_init(1,3,INPUT);       // button
@@ -13,10 +13,8 @@ void main(void)
 
     for(;;)
     {
-        while(gpio_read(1,3) == 0);     // button is not pressed
-        gpio_write(1,0,1);              // red on
+        while(gpio_read(1,3) == 1);     // button is not pressed
         while(gpio_read(1,3) == 0);     // button is pressed
-        goio_write(1,0,0);              // red off
-        gpio_write(1,6,~gpio_read(1,6)) // toggle green
+        gpio_write(1,0,1);              // red off
     }
 }

@@ -1,11 +1,11 @@
 
 TARGET		= gpio_test
-mmcu		= msp430g2553
+MCU 		= msp430g2553
 OBJECTS 	= gpio_test.o gpio_api.o
 #######################################################################################
 CFLAGS   = -mmcu=$(MCU) -Os
 ASFLAGS  = -mmcu=$(MCU) -Os
-LDFLAGS  = -mmcu=$(MCU) -Os
+LDFLAGS  = -mmcu=$(MCU) -Wall
 ########################################################################################
 CC       = msp430-gcc
 LD       = msp430-ld
@@ -25,7 +25,7 @@ RM       = rm -f
 MV       = mv
 ########################################################################################
 $(TARGET).elf: $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET).elf
+	$(CC) $(CFLAGS) $(OBJECTS) $(LDFLAGS) -o $(TARGET).elf
 	$(OBJDUMP) -z -EL -D -W $(TARGET).elf >$(TARGET).lss
 	$(SIZE) $(TARGET).elf
 	$(OBJCOPY) -O ihex $(TARGET).elf $(TARGET).hex
@@ -33,10 +33,10 @@ $(TARGET).elf: $(OBJECTS)
 gpio_test.o: msp430_lib.h
 gpio_api.o: gpio_api.h
 
-install: all
+install: $(TARGET).elf
 	mspdebug --force-reset rf2500 "prog $(TARGET).elf"
 
-debug: all
+debug: $(TARGET).elf
 	clear
 	@echo -e "--------------------------------------------------------------------------------"
 	@echo -e "-- Make sure you are running mspdebug in another window                       --"

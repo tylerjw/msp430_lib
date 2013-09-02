@@ -5,6 +5,7 @@
 #define MSP_GPIO_API_H
 
 #include  <msp430g2553.h>
+#include  <stdbool.h>
 
 #define INPUT   0
 #define OUTPUT  1

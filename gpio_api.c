@@ -3,100 +3,57 @@
 
 #include "gpio_api.h"
 
-/* _validate_pin - validates (port,pin) value
- * @param port (1,2)
- * @param pin  (0-7)
- * @returns true if pin is valid, false if not
- */
-bool _validate_pin(int port, int pin)
+bool gpio_init (gpio_t* obj, int port, int pin, int direction)
 {
+    // validate port/pin
     if(port < 1 || port > 2)
         return false;
     else if(pin < 0 || pin > 7)
         return false;
-    return true;
-}
 
-bool gpio_init (int port, int pin, int direction)
-{
-    int nbit = ~(1 << pin);     // inverted bit mask
+    obj->mask = (1 << pin);     // bit mask
     if(direction != 0)
         direction = (1 << pin);      // direction mask
 
-    if (!_validate_pin(port,pin))
-        return false;
-
     if (port == 1)
     {
-        P1SEL &= nbit;      // set as gpio
-        P1SEL2 &= nbit;     // (0,0) = gpio pin
-        P1OUT &= nbit;      // set output to zero (pull down)
-        P1DIR |= direction; // set direction
+        obj->reg_dir = P1DIR;
+        obj->reg_out = P1OUT;
+        obj->reg_in = P1IN;
+        obj->reg_ren = P1REN;
+
+        P1SEL &= ~obj->mask;      // set as gpio
+        P1SEL2 &= ~obj->mask;     // (0,0) = gpio pin
     }
     else                    // port 2
     {
-        P2SEL &= nbit;      // set as gpio
-        P2SEL2 &= nbit;     // (0,0) = gpio pin
-        P2OUT &= nbit;      // set output to zero (pull down)
-        P2DIR |= direction; // set direction
+        obj->reg_dir = P2DIR;
+        obj->reg_out = P2OUT;
+        obj->reg_in = P2IN;
+        obj->reg_ren = P2REN;
+
+        P2SEL &= ~obj->mask;      // set as gpio
+        P2SEL2 &= ~obj->mask;     // (0,0) = gpio pin
     }
+
+    obj->reg_out &= ~obj->mask; // set output to 0 (pull down if input)
+    obj->reg_dir |= ((direction != 0) ? obj->mask : 0) // set direction
+
     return true;
 }
 
-bool gpio_ioctl_pull_en(int port, int pin, int direction)
+void gpio_ioctl_pull_en(gpio_t* obj, int direction)
 {
-    int mask = 1 << pin;    // mask for setting pin
-    if(direction != 0)
-        direction = mask;
-
-    if (!_validate_pin(port,pin))
-        return false;
-
-    if (port == 1)
-    {
-        P1OUT |= direction;  // pull up/down
-        P1REN |= mask;
-    }
-    else            // port 2
-    {
-        P2OUT |= direction;  // pull up/down
-        P2REN |= mask;
-    }
-    return true;
+    obj->reg_dir |= ((direction != 0) ? obj->mask : 0) // set direction
+    obj->reg_ren |= obj->mask;
 }
 
-bool gpio_write(int port, int pin, int value)
+void gpio_write(gpio_t* obj, int value)
 {
-    if (value != 0)              
-        value = 1 << pin;   // mask for setting pin
-
-    if (!_validate_pin(port,pin))
-        return false;
-
-    if (port == 1)
-        P1OUT |= value; // set output
-    else               // port 2
-        P2OUT |= value; // set output
-    return true;
+    obj->reg_out |= ((value != 0) ? obj->mask : 0)
 }
 
 int  gpio_read (int port, int pin)
 {
-    int mask = 1 << pin;
-    int value = 0;
-
-    if (!_validate_pin(port,pin))
-        return -1;
-
-    if(port == 1)
-    {
-        if (P1IN & mask)
-            value = 1;
-    }
-    else        // port 2
-    {
-        if(P2IN & mask)
-            value = 1;
-    }
-    return value;
+    return ((obj->reg_in & obj->mask) ? 1 : 0)
 }

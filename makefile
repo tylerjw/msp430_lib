@@ -3,8 +3,8 @@ TARGET		= gpio_test
 MCU 		= msp430g2553
 OBJECTS 	= gpio_test.o gpio_api.o
 #######################################################################################
-CFLAGS   = -mmcu=$(MCU) -Os
-ASFLAGS  = -mmcu=$(MCU) -Os
+CFLAGS   = -mmcu=$(MCU)
+ASFLAGS  = -mmcu=$(MCU)
 LDFLAGS  = -mmcu=$(MCU) -Wall
 ########################################################################################
 CC       = msp430-gcc
@@ -25,8 +25,8 @@ RM       = rm -f
 MV       = mv
 ########################################################################################
 $(TARGET).elf: $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LDFLAGS) -o $(TARGET).elf
-	$(OBJDUMP) -z -EL -D -W $(TARGET).elf >$(TARGET).lss
+	$(CC) $(OBJECTS) $(LDFLAGS) -o $(TARGET).elf
+	$(OBJDUMP) -z -EL -D -W $(TARGET).elf > $(TARGET).lss
 	$(SIZE) $(TARGET).elf
 	$(OBJCOPY) -O ihex $(TARGET).elf $(TARGET).hex
 
@@ -46,4 +46,4 @@ debug: $(TARGET).elf
 	msp430-gdb --command=$(TARGET).gdb $(TARGET).elf
 
 clean:
-	rm -f $(OBJECTS) $(TARGET).elf $(TARGET).lss $(TARGET).map $(TARGET).hex $(TARGET)_cc.txt
+	rm -f $(OBJECTS) $(TARGET).elf $(TARGET).lss $(TARGET).map $(TARGET).hex

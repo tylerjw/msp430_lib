@@ -8,6 +8,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+// null
+#define NULL ((void *)0)
+
 #define INPUT   0
 #define OUTPUT  1
 #define DOWN    0

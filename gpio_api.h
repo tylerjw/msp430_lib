@@ -4,12 +4,7 @@
 #ifndef MSP_GPIO_API_H
 #define MSP_GPIO_API_H
 
-#include <msp430g2553.h>
-#include <stdbool.h>
-#include <stdint.h>
-
-// null
-#define NULL ((void *)0)
+#include "msp430_lib.h"
 
 #define INPUT   0
 #define OUTPUT  1
@@ -21,11 +16,11 @@
  * and pointers to the memory location of registers.
 */
 typedef struct {
-	uint8_t mask;
-	uint16_t *reg_out;
-	uint16_t *reg_in;
-	uint16_t *reg_ren;
-	uint16_t *reg_dir;
+	unsigned char mask;
+	unsigned char *reg_out;
+	unsigned char *reg_in;
+	unsigned char *reg_ren;
+	unsigned char *reg_dir;
 } gpio_t;
 
 /* gpio_init - initialize GPIO pin

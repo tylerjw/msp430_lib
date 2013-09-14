@@ -8,4 +8,7 @@
 
 #include "gpio_api.h"       // gpio driver
 
+/* Defines */
+#define NULL ((void *)0)    // NULL
+
 #endif

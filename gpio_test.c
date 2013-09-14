@@ -1,7 +1,7 @@
 /* gpio_tests.c - for testing gpio library
  */
 
-#include  "msp430_lib.h"
+#include "msp430_lib.h"
 
 void main(void)
 {

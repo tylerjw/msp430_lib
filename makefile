@@ -30,7 +30,7 @@ $(TARGET).elf: $(OBJECTS)
 	$(OBJCOPY) -O ihex $(TARGET).elf $(TARGET).hex
 
 gpio_test.o: msp430_lib.h
-gpio_api.o: gpio_api.h
+gpio_api.o: gpio_api.h msp430_lib.h
 
 install: $(TARGET).elf
 	mspdebug --force-reset rf2500 "prog $(TARGET).elf"

@@ -22,7 +22,7 @@ gpio_t *gpio_init (gpio_t *obj, int port, int pin, int direction)
     obj->mask = (1 << pin);     // bit mask
     if(direction != 0)
     {
-        direction = (1 << pin);      // direction mask
+        direction = (unsigned char)(1 << pin);      // direction mask
     }
 
     if (port == 1)
@@ -47,23 +47,23 @@ gpio_t *gpio_init (gpio_t *obj, int port, int pin, int direction)
     }
 
     *obj->reg_out &= ~obj->mask; // set output to 0 (pull down if input)
-    *obj->reg_dir |= ((direction != 0) ? obj->mask : 0) // set direction
+    *obj->reg_dir |= ((direction != 0) ? obj->mask : 0); // set direction
 
     return obj;
 }
 
 void gpio_ioctl_pull_en(gpio_t* obj, int direction)
 {
-    *obj->reg_dir |= ((direction != 0) ? obj->mask : 0) // set direction
+    *obj->reg_dir |= ((direction != 0) ? obj->mask : 0); // set direction
     *obj->reg_ren |= obj->mask;
 }
 
 void gpio_write(gpio_t* obj, int value)
 {
-    *obj->reg_out |= ((value != 0) ? obj->mask : 0)
+    *obj->reg_out |= ((value != 0) ? obj->mask : 0);
 }
 
 int  gpio_read (gpio_t* obj)
 {
-    return ((*obj->reg_in & obj->mask) ? 1 : 0)
+    return ((*obj->reg_in & obj->mask) ? 1 : 0);
 }

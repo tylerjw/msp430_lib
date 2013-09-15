@@ -3,7 +3,7 @@ TARGET		= gpio_test
 MCU 		= msp430g2553
 OBJECTS 	= gpio_test.o gpio_api.o
 #######################################################################################
-CFLAGS   = -mmcu=$(MCU)
+CFLAGS   = -mmcu=$(MCU) -g
 ASFLAGS  = -mmcu=$(MCU)
 LDFLAGS  = -mmcu=$(MCU) -Wall
 ########################################################################################

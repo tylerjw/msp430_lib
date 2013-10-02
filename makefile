@@ -42,7 +42,7 @@ debug: $(TARGET).elf
 	@echo -e "--------------------------------------------------------------------------------"
 	@echo -e "$$ # you can start it like this:"
 	@echo -e "$$ mspdebug rf2500 gdb\n"
-	msp430-gdb --command=$(TARGET).gdb $(TARGET).elf
+	msp430-gdb --command=commands.gdb $(TARGET).elf
 
 clean:
 	rm -f $(OBJECTS) $(TARGET).elf $(TARGET).lss $(TARGET).map $(TARGET).hex

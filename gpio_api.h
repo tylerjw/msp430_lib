@@ -17,10 +17,10 @@
 */
 typedef struct {
 	unsigned char mask;
-	unsigned char *reg_out;
-	unsigned char *reg_in;
-	unsigned char *reg_ren;
-	unsigned char *reg_dir;
+	volatile unsigned char *reg_out;
+	volatile unsigned char *reg_in;
+	volatile unsigned char *reg_ren;
+	volatile unsigned char *reg_dir;
 } gpio_t;
 
 /* gpio_init - initialize GPIO pin

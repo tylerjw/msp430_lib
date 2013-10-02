@@ -27,20 +27,20 @@ gpio_t *gpio_init (gpio_t *obj, int port, int pin, int direction)
 
     if (port == 1)
     {
-        obj->reg_dir = &P1DIR;
-        obj->reg_out = &P1OUT;
-        obj->reg_in = &P1IN;
-        obj->reg_ren = &P1REN;
+        obj->reg_dir = (unsigned char *) &P1DIR;
+        obj->reg_out = (unsigned char *) &P1OUT;
+        obj->reg_in = (unsigned char *) &P1IN;
+        obj->reg_ren = (unsigned char *) &P1REN;
 
         P1SEL &= ~obj->mask;      // set as gpio
         P1SEL2 &= ~obj->mask;     // (0,0) = gpio pin
     }
     else                    // port 2
     {
-        obj->reg_dir = &P2DIR;
-        obj->reg_out = &P2OUT;
-        obj->reg_in = &P2IN;
-        obj->reg_ren = &P2REN;
+        obj->reg_dir = (unsigned char *) &P2DIR;
+        obj->reg_out = (unsigned char *) &P2OUT;
+        obj->reg_in = (unsigned char *) &P2IN;
+        obj->reg_ren = (unsigned char *) &P2REN;
 
         P2SEL &= ~obj->mask;      // set as gpio
         P2SEL2 &= ~obj->mask;     // (0,0) = gpio pin

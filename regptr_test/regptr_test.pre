@@ -1,0 +1,295 @@
+# 1 "regptr_test.c"
+# 1 "/Users/tylerjw/Projects/msp430/msp430_lib//"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "regptr_test.c"
+
+
+# 1 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 1 3
+# 56 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+# 1 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/iomacros.h" 1 3
+# 57 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 2 3
+# 110 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+# 1 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/in430.h" 1 3
+# 43 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/in430.h" 3
+void __nop (void);
+
+
+
+void __dint (void);
+
+
+
+void __eint (void);
+
+
+unsigned int __read_status_register (void);
+
+
+void __write_status_register (unsigned int sr);
+
+
+void *__read_stack_pointer (void);
+
+
+void __write_stack_pointer (void *sp);
+
+
+void __bic_status_register (unsigned int bits);
+
+
+void __bis_status_register (unsigned int bits);
+
+
+
+void __bic_status_register_on_exit (unsigned int bits);
+
+
+
+void __bis_status_register_on_exit (unsigned int bits);
+
+
+
+void *__builtin_frame_address (int zero);
+
+
+
+void *__builtin_return_address (int zero);
+# 111 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 2 3
+# 133 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern volatile unsigned char IE1 asm("__" "IE1");
+
+
+
+
+
+
+extern volatile unsigned char IFG1 asm("__" "IFG1");
+
+
+
+
+
+
+
+extern volatile unsigned char IE2 asm("__" "IE2");
+
+
+
+
+
+
+
+extern volatile unsigned char IFG2 asm("__" "IFG2");
+# 170 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern volatile unsigned char ADC10DTC0 asm("__" "ADC10DTC0");
+
+extern volatile unsigned char ADC10DTC1 asm("__" "ADC10DTC1");
+
+extern volatile unsigned char ADC10AE0 asm("__" "ADC10AE0");
+
+
+extern volatile unsigned int ADC10CTL0 asm("__" "ADC10CTL0");
+
+extern volatile unsigned int ADC10CTL1 asm("__" "ADC10CTL1");
+
+extern volatile unsigned int ADC10MEM asm("__" "ADC10MEM");
+
+extern volatile unsigned int ADC10SA asm("__" "ADC10SA");
+# 288 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern volatile unsigned char DCOCTL asm("__" "DCOCTL");
+
+extern volatile unsigned char BCSCTL1 asm("__" "BCSCTL1");
+
+extern volatile unsigned char BCSCTL2 asm("__" "BCSCTL2");
+
+extern volatile unsigned char BCSCTL3 asm("__" "BCSCTL3");
+# 372 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern volatile unsigned char CACTL1 asm("__" "CACTL1");
+
+extern volatile unsigned char CACTL2 asm("__" "CACTL2");
+
+extern volatile unsigned char CAPD asm("__" "CAPD");
+# 416 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern volatile unsigned int FCTL1 asm("__" "FCTL1");
+
+extern volatile unsigned int FCTL2 asm("__" "FCTL2");
+
+extern volatile unsigned int FCTL3 asm("__" "FCTL3");
+# 468 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern const volatile unsigned char P1IN asm("__" "P1IN");
+
+extern volatile unsigned char P1OUT asm("__" "P1OUT");
+
+extern volatile unsigned char P1DIR asm("__" "P1DIR");
+
+extern volatile unsigned char P1IFG asm("__" "P1IFG");
+
+extern volatile unsigned char P1IES asm("__" "P1IES");
+
+extern volatile unsigned char P1IE asm("__" "P1IE");
+
+extern volatile unsigned char P1SEL asm("__" "P1SEL");
+
+extern volatile unsigned char P1SEL2 asm("__" "P1SEL2");
+
+extern volatile unsigned char P1REN asm("__" "P1REN");
+
+
+extern const volatile unsigned char P2IN asm("__" "P2IN");
+
+extern volatile unsigned char P2OUT asm("__" "P2OUT");
+
+extern volatile unsigned char P2DIR asm("__" "P2DIR");
+
+extern volatile unsigned char P2IFG asm("__" "P2IFG");
+
+extern volatile unsigned char P2IES asm("__" "P2IES");
+
+extern volatile unsigned char P2IE asm("__" "P2IE");
+
+extern volatile unsigned char P2SEL asm("__" "P2SEL");
+
+extern volatile unsigned char P2SEL2 asm("__" "P2SEL2");
+
+extern volatile unsigned char P2REN asm("__" "P2REN");
+
+
+
+
+
+
+
+extern const volatile unsigned char P3IN asm("__" "P3IN");
+
+extern volatile unsigned char P3OUT asm("__" "P3OUT");
+
+extern volatile unsigned char P3DIR asm("__" "P3DIR");
+
+extern volatile unsigned char P3SEL asm("__" "P3SEL");
+
+extern volatile unsigned char P3SEL2 asm("__" "P3SEL2");
+
+extern volatile unsigned char P3REN asm("__" "P3REN");
+
+
+
+
+
+
+
+extern const volatile unsigned int TA0IV asm("__" "TA0IV");
+
+extern volatile unsigned int TA0CTL asm("__" "TA0CTL");
+
+extern volatile unsigned int TA0CCTL0 asm("__" "TA0CCTL0");
+
+extern volatile unsigned int TA0CCTL1 asm("__" "TA0CCTL1");
+
+extern volatile unsigned int TA0CCTL2 asm("__" "TA0CCTL2");
+
+extern volatile unsigned int TA0R asm("__" "TA0R");
+
+extern volatile unsigned int TA0CCR0 asm("__" "TA0CCR0");
+
+extern volatile unsigned int TA0CCR1 asm("__" "TA0CCR1");
+
+extern volatile unsigned int TA0CCR2 asm("__" "TA0CCR2");
+# 651 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern const volatile unsigned int TA1IV asm("__" "TA1IV");
+
+extern volatile unsigned int TA1CTL asm("__" "TA1CTL");
+
+extern volatile unsigned int TA1CCTL0 asm("__" "TA1CCTL0");
+
+extern volatile unsigned int TA1CCTL1 asm("__" "TA1CCTL1");
+
+extern volatile unsigned int TA1CCTL2 asm("__" "TA1CCTL2");
+
+extern volatile unsigned int TA1R asm("__" "TA1R");
+
+extern volatile unsigned int TA1CCR0 asm("__" "TA1CCR0");
+
+extern volatile unsigned int TA1CCR1 asm("__" "TA1CCR1");
+
+extern volatile unsigned int TA1CCR2 asm("__" "TA1CCR2");
+# 683 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern volatile unsigned char UCA0CTL0 asm("__" "UCA0CTL0");
+
+extern volatile unsigned char UCA0CTL1 asm("__" "UCA0CTL1");
+
+extern volatile unsigned char UCA0BR0 asm("__" "UCA0BR0");
+
+extern volatile unsigned char UCA0BR1 asm("__" "UCA0BR1");
+
+extern volatile unsigned char UCA0MCTL asm("__" "UCA0MCTL");
+
+extern volatile unsigned char UCA0STAT asm("__" "UCA0STAT");
+
+extern const volatile unsigned char UCA0RXBUF asm("__" "UCA0RXBUF");
+
+extern volatile unsigned char UCA0TXBUF asm("__" "UCA0TXBUF");
+
+extern volatile unsigned char UCA0ABCTL asm("__" "UCA0ABCTL");
+
+extern volatile unsigned char UCA0IRTCTL asm("__" "UCA0IRTCTL");
+
+extern volatile unsigned char UCA0IRRCTL asm("__" "UCA0IRRCTL");
+
+
+
+
+extern volatile unsigned char UCB0CTL0 asm("__" "UCB0CTL0");
+
+extern volatile unsigned char UCB0CTL1 asm("__" "UCB0CTL1");
+
+extern volatile unsigned char UCB0BR0 asm("__" "UCB0BR0");
+
+extern volatile unsigned char UCB0BR1 asm("__" "UCB0BR1");
+
+extern volatile unsigned char UCB0I2CIE asm("__" "UCB0I2CIE");
+
+extern volatile unsigned char UCB0STAT asm("__" "UCB0STAT");
+
+extern const volatile unsigned char UCB0RXBUF asm("__" "UCB0RXBUF");
+
+extern volatile unsigned char UCB0TXBUF asm("__" "UCB0TXBUF");
+
+extern volatile unsigned int UCB0I2COA asm("__" "UCB0I2COA");
+
+extern volatile unsigned int UCB0I2CSA asm("__" "UCB0I2CSA");
+# 900 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern volatile unsigned int WDTCTL asm("__" "WDTCTL");
+# 948 "/usr/local/msp430-uniarch-20110716/lib/gcc/msp430/4.5.3/../../../../msp430/include/msp430g2553.h" 3
+extern const volatile unsigned char CALDCO_16MHZ asm("__" "CALDCO_16MHZ");
+
+extern const volatile unsigned char CALBC1_16MHZ asm("__" "CALBC1_16MHZ");
+
+extern const volatile unsigned char CALDCO_12MHZ asm("__" "CALDCO_12MHZ");
+
+extern const volatile unsigned char CALBC1_12MHZ asm("__" "CALBC1_12MHZ");
+
+extern const volatile unsigned char CALDCO_8MHZ asm("__" "CALDCO_8MHZ");
+
+extern const volatile unsigned char CALBC1_8MHZ asm("__" "CALBC1_8MHZ");
+
+extern const volatile unsigned char CALDCO_1MHZ asm("__" "CALDCO_1MHZ");
+
+extern const volatile unsigned char CALBC1_1MHZ asm("__" "CALBC1_1MHZ");
+# 4 "regptr_test.c" 2
+
+
+
+void main(void)
+{
+ unsigned char *reg;
+ reg = (unsigned char *) &P1DIR;
+
+ WDTCTL = (0x5A00) | (0x0080);
+ *reg |= ((0x0001)|(0x0040));
+
+ reg = (unsigned char *) &P1OUT;
+ *reg |= ((0x0001)|(0x0040));
+
+ for(;;);
+}

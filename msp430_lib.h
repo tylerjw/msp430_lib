@@ -7,8 +7,6 @@
 #include  <msp430g2553.h>
 
 #include "gpio_api.h"       // gpio driver
-
-/* Defines */
-#define NULL ((void *)0)    // NULL
+#include "defines.h"		// defines (NULL, etc.)
 
 #endif

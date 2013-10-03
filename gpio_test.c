@@ -3,25 +3,29 @@
 
 #include "msp430_lib.h"
 
-void main(void)
+int main(void)
 {
-    int led = 0;
-    gpio_t pins[3];
-    gpio_t *red_led = &pins[0];
-    gpio_t *green_led = &pins[1];
-    gpio_t *btn = &pins[2];
+    gpio_t green, red, button;
 
-    gpio_init(red_led,1,0,OUTPUT);      // red led
-    gpio_init(green_led,1,6,OUTPUT);      // green led
-    gpio_init(btn,1,3,INPUT);       // button
+    gpio_init(&green, 1, 6, OUTPUT); // green led
+    gpio_init(&red, 1, 0, OUTPUT); // red led
+    gpio_init(&button, 1, 3, INPUT);
 
-    gpio_ioctl_pull_en(btn,UP);  // pull up on button
+    WDTCTL = WDTPW | WDTHOLD;   // disable wdt+
+    
+    gpio_ioctl_pull_en(&button, UP);
+    gpio_write(&green, UP);
+    gpio_write(&red, DOWN);
 
-    for(;;)
+    for(;;) 
     {
-        int i = 0;
-        while(gpio_read(btn) == 1) i++;     // button is not pressed
-        while(gpio_read(btn) == 0) i--;     // button is pressed
-        gpio_write(red_led,1);              // red off
+        // (*button.reg_in & button.mask) != 0
+        while(gpio_read(&button) == 1); // do nothing, button up
+        gpio_write(&green, DOWN); // turn green off
+        gpio_write(&red, UP); // turn red on
+        while(gpio_read(&button) == 0); // do nothing, button is down
+        gpio_write(&green, UP); // turn the green on
+        gpio_write(&red, DOWN); // turn red off
     }
+    return 0; // should never reach this!
 }

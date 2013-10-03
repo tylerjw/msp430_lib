@@ -91,28 +91,87 @@
 			"file": "makefile",
 			"settings":
 			{
-				"buffer_size": 1613,
+				"buffer_size": 1626,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "gpio_api.c",
+			"file": "gpio_api.h",
 			"settings":
 			{
-				"buffer_size": 2177,
+				"buffer_size": 1033,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "/* msp430_lib.c - msp430 Microcontroller library\n */\n\n#include \"gpio_api.h\"\n\n/* _validate_pin - validates (port,pin) value\n * @param port (1,2)\n * @param pin  (0-7)\n * @returns true if pin is valid, false if not\n */\nbool _validate_pin(int port, int pin)\n{\n    if(port < 1 || port > 2)\n        return false;\n    else if(pin < 0 || pin > 7)\n        return false;\n    return true;\n}\n\nbool gpio_init (int port, int pin, int direction)\n{\n    int nbit = ~(1 << pin);     // inverted bit mask\n    if(direction != 0)\n        direction = (1 << pin);      // direction mask\n\n    if (!_validate_pin(port,pin))\n        return false;\n\n    if (port == 1)\n    {\n        P1SEL &= nbit;      // set as gpio\n        P1SEL2 &= nbit;     // (0,0) = gpio pin\n        P1OUT &= nbit;      // set output to zero (pull down)\n        P1DIR |= direction; // set direction\n    }\n    else                    // port 2\n    {\n        P2SEL &= nbit;      // set as gpio\n        P2SEL2 &= nbit;     // (0,0) = gpio pin\n        P2OUT &= nbit;      // set output to zero (pull down)\n        P2DIR |= direction; // set direction\n    }\n    return true;\n}\n\nbool gpio_ioctl_pull_en(int port, int pin, int direction)\n{\n    int mask = 1 << pin;    // mask for setting pin\n    if(direction != 0)\n        direction = mask;\n\n    if (!_validate_pin(port,pin))\n        return false;\n\n    if (port == 1)\n    {\n        P1OUT |= direction;  // pull up/down\n        P1REN |= mask;\n    }\n    else            // port 2\n    {\n        P2OUT |= direction;  // pull up/down\n        P2REN |= mask;\n    }\n    return true;\n}\n\nbool gpio_write(int port, int pin, int value)\n{\n    if (value != 0)              \n        value = 1 << pin;   // mask for setting pin\n\n    if (!_validate_pin(port,pin))\n        return false;\n\n    if (port == 1)\n    { \n        P1OUT |= value; // set output\n    }\n    else                // port 2\n    {\n        P2OUT |= value; // set output\n    }\n    return true;\n}\n\nint  gpio_read (int port, int pin)\n{\n    int mask = 1 << pin;\n    int value = 0;\n\n    if (!_validate_pin(port,pin))\n        return -1;\n\n    if(port == 1)\n    {\n        if (P1IN & mask)\n            value = 1;\n    }\n    else        // port 2\n    {\n        if(P2IN & mask)\n            value = 1;\n    }\n    return value;\n}",
+			"file": "gpio_api.c",
+			"file_size": 2326,
+			"file_write_time": 1378060225000000,
+			"settings":
+			{
+				"buffer_size": 2251,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/tylerjw/Projects/mbed/libraries/mbed/capi/gpio_api.h",
+			"settings":
+			{
+				"buffer_size": 1110,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/tylerjw/Projects/mbed/libraries/mbed/capi/pinmap_common.c",
+			"settings":
+			{
+				"buffer_size": 1633,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/tylerjw/Projects/mbed/libraries/mbed/capi/pinmap.h",
+			"settings":
+			{
+				"buffer_size": 1164,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/tylerjw/Projects/mbed/libraries/mbed/vendor/NXP/capi/LPC1768/PinNames.h",
+			"settings":
+			{
+				"buffer_size": 3130,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "gpio_test.c",
 			"settings":
 			{
-				"buffer_size": 611,
+				"buffer_size": 496,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Users/tylerjw/Projects/msp430/demos/07_butled4/butled4.c",
+			"settings":
+			{
+				"buffer_size": 952,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "msp430_lib.h",
+			"settings":
+			{
+				"buffer_size": 168,
+				"line_ending": "Unix"
 			}
 		}
 	],
-	"build_system": "Packages/Python/Python.sublime-build",
+	"build_system": "Packages/Makefile/Make.sublime-build",
 	"command_palette":
 	{
 		"height": 127.0,
@@ -180,6 +239,9 @@
 	},
 	"file_history":
 	[
+		"/Users/tylerjw/Projects/mbed/libraries/mbed/capi/mbed_debug.h",
+		"/Users/tylerjw/Projects/mbed/libraries/mbed/capi/mbed_interface.h",
+		"/Users/tylerjw/Projects/msp430/msp430_skeleton/Makefile",
 		"/C/Users/tyler.weaver/Projects/msp430_demo/lib/tests/makefile",
 		"/C/Users/tyler.weaver/Projects/msp430_demo/lib/tests/gpio_tests.c",
 		"/C/Users/tyler.weaver/Projects/msp430_demo/lib/gpio_api.c",
@@ -275,6 +337,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"msp430g2553",
 			"void",
 			"LED_ON",
 			"~bit",
@@ -403,15 +466,15 @@
 					"file": "makefile",
 					"settings":
 					{
-						"buffer_size": 1613,
+						"buffer_size": 1626,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								40,
-								40
+								617,
+								617
 							]
 						],
 						"settings":
@@ -426,18 +489,180 @@
 				},
 				{
 					"buffer": 1,
-					"file": "gpio_api.c",
+					"file": "gpio_api.h",
 					"settings":
 					{
-						"buffer_size": 2177,
+						"buffer_size": 1033,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								74,
-								64
+								147,
+								147
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "gpio_api.c",
+					"settings":
+					{
+						"buffer_size": 2251,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1807,
+								1807
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 686.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/tylerjw/Projects/mbed/libraries/mbed/capi/gpio_api.h",
+					"settings":
+					{
+						"buffer_size": 1110,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/tylerjw/Projects/mbed/libraries/mbed/capi/pinmap_common.c",
+					"settings":
+					{
+						"buffer_size": 1633,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								752,
+								752
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 102.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/tylerjw/Projects/mbed/libraries/mbed/capi/pinmap.h",
+					"settings":
+					{
+						"buffer_size": 1164,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								699,
+								699
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/Users/tylerjw/Projects/mbed/libraries/mbed/vendor/NXP/capi/LPC1768/PinNames.h",
+					"settings":
+					{
+						"buffer_size": 3130,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2430,
+								2430
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "gpio_test.c",
+					"settings":
+					{
+						"buffer_size": 496,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								488,
+								488
 							]
 						],
 						"settings":
@@ -453,19 +678,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "gpio_test.c",
+					"buffer": 8,
+					"file": "/Users/tylerjw/Projects/msp430/demos/07_butled4/butled4.c",
 					"settings":
 					{
-						"buffer_size": 611,
+						"buffer_size": 952,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								98,
-								98
+								434,
+								434
 							]
 						],
 						"settings":
@@ -473,6 +698,32 @@
 							"syntax": "Packages/C++/C.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "msp430_lib.h",
+					"settings":
+					{
+						"buffer_size": 168,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								168
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,

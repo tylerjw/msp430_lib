@@ -3,8 +3,10 @@ TARGET		= gpio_test
 MCU 		= msp430g2553
 OBJECTS 	= gpio_test.o gpio_api.o
 #######################################################################################
-CFLAGS   = -mmcu=$(MCU) -g
+# compile - debug symbols (g), optomize for size (Os)
+CFLAGS   = -mmcu=$(MCU) -g -Os
 ASFLAGS  = -mmcu=$(MCU)
+# link - all warnings (Wall)
 LDFLAGS  = -mmcu=$(MCU) -Wall
 ########################################################################################
 CC       = msp430-gcc
@@ -29,8 +31,8 @@ $(TARGET).elf: $(OBJECTS)
 	$(SIZE) $(TARGET).elf
 	$(OBJCOPY) -O ihex $(TARGET).elf $(TARGET).hex
 
-gpio_test.o: msp430_lib.h
-gpio_api.o: gpio_api.h msp430_lib.h
+gpio_test.o: msp430_lib.h defines.h
+gpio_api.o: gpio_api.h defines.h
 
 install: $(TARGET).elf
 	mspdebug --force-reset rf2500 "prog $(TARGET).elf"

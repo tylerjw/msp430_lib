@@ -4,7 +4,8 @@
 #ifndef MSP_GPIO_API_H
 #define MSP_GPIO_API_H
 
-#include "msp430_lib.h"
+#include  <msp430g2553.h>
+#include "defines.h"
 
 #define INPUT   0
 #define OUTPUT  1
@@ -27,16 +28,16 @@ typedef struct {
  * @param obj gpio object pointer
  * @param port (1,2)
  * @param pin  (0-7)
- * @param direction (INPUT or OUTPUT) or (0,1)
+ * @param io (INPUT or OUTPUT) or (0,1)
  * @returns NULL if error, obj pointer otherwise
  */
-gpio_t *gpio_init(gpio_t *obj, int port, int pin, int direction);
+gpio_t *gpio_init(gpio_t *obj, int port, int pin, int io);
 
 /* gpio_ioctl_pull_en - enable pull up (input)
  * @param obj gpio object pointer
- * @param direction (DOWN or UP) or (0,1)
+ * @param updown (DOWN or UP) or (0,1)
  */
-void gpio_ioctl_pull_en(gpio_t *obj, int direction);
+void gpio_ioctl_pull_en(gpio_t *obj, int updown);
 
 /* gpio_write - write to GPIO pin (sets PxOUT register)
  * @param obj gpio object pointer

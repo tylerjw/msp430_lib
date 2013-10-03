@@ -3,6 +3,15 @@
 	[
 		{
 			"path": "/C/Users/tyler.weaver/Projects/msp430_lib"
+		},
+		{
+			"path": "/Users/tylerjw/Projects/msp430/msp430_lib"
+		},
+		{
+			"path": "regptr_test"
+		},
+		{
+			"path": "gpio_test"
 		}
 	]
 }

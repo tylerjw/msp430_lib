@@ -1,7 +1,7 @@
 
-TARGET		= gpio_test
+TARGET		= gpio_isr
 MCU 		= msp430g2553
-OBJECTS 	= gpio_test.o gpio_api.o
+OBJECTS 	= gpio_isr.o gpio_api.o
 #######################################################################################
 # compile - debug symbols (g), optomize for size (Os)
 CFLAGS   = -mmcu=$(MCU) -g -Os
@@ -31,7 +31,7 @@ $(TARGET).elf: $(OBJECTS)
 	$(SIZE) $(TARGET).elf
 	$(OBJCOPY) -O ihex $(TARGET).elf $(TARGET).hex
 
-gpio_test.o: msp430_lib.h defines.h
+gpio_isr.o: msp430_lib.h
 gpio_api.o: gpio_api.h defines.h
 
 install: $(TARGET).elf

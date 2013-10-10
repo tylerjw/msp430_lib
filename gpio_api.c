@@ -31,6 +31,8 @@ gpio_t *gpio_init (gpio_t *obj, int port, int pin, int io)
         obj->reg_out = (unsigned char *) &P1OUT;
         obj->reg_in = (unsigned char *) &P1IN;
         obj->reg_ren = (unsigned char *) &P1REN;
+        obj->reg_ie = (unsigned char *) &P1IE;
+        obj->reg_ies = (unsigned char *) &P1IES;
 
         P1SEL &= ~obj->mask;      // set as gpio
         P1SEL2 &= ~obj->mask;     // (0,0) = gpio pin
@@ -41,6 +43,8 @@ gpio_t *gpio_init (gpio_t *obj, int port, int pin, int io)
         obj->reg_out = (unsigned char *) &P2OUT;
         obj->reg_in = (unsigned char *) &P2IN;
         obj->reg_ren = (unsigned char *) &P2REN;
+        obj->reg_ie = (unsigned char *) &P2IE;
+        obj->reg_ies = (unsigned char *) &P2IES;
 
         P2SEL &= ~obj->mask;      // set as gpio
         P2SEL2 &= ~obj->mask;     // (0,0) = gpio pin
@@ -54,8 +58,34 @@ gpio_t *gpio_init (gpio_t *obj, int port, int pin, int io)
 
 void gpio_ioctl_pull_en(gpio_t* obj, int updown)
 {
-    *obj->reg_out |= ((updown == DOWN) ? DOWN : obj->mask); // set updown
+    if(updown == UP)
+    {
+        *obj->reg_out |= obj->mask; // set updown
+    } else {
+        *obj->reg_out &= ~(obj->mask);
+    }
     *obj->reg_ren |= obj->mask;
+}
+
+void gpio_ioctl_int_en(gpio_t* obj, int edge)
+{
+    if(edge == FALLING)
+    {
+        *obj->reg_ies |= obj->mask;
+    } else {
+        *obj->reg_ies &= ~(obj->mask);
+    }
+    *obj->reg_ie |= obj->mask;
+}
+
+void gpio_ioctl_int_dis(gpio_t* obj)
+{
+    *obj->reg_ie &= ~(obj->mask);
+}
+
+void gpio_ioctl_pull_dis(gpio_t* obj)
+{
+    *obj->reg_ren &= ~(obj->mask);
 }
 
 void gpio_write(gpio_t* obj, int value)

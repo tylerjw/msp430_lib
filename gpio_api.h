@@ -11,6 +11,8 @@
 #define OUTPUT  1
 #define DOWN    0
 #define UP      1
+#define RISING	0
+#define FALLING	1
 
 /* gpio object
  * stores mask for the bit associated with indevidual pin ( or pins )
@@ -22,6 +24,8 @@ typedef struct {
 	volatile unsigned char *reg_in;
 	volatile unsigned char *reg_ren;
 	volatile unsigned char *reg_dir;
+	volatile unsigned char *reg_ie;
+	volatile unsigned char *reg_ies;
 } gpio_t;
 
 /* gpio_init - initialize GPIO pin
@@ -33,11 +37,27 @@ typedef struct {
  */
 gpio_t *gpio_init(gpio_t *obj, int port, int pin, int io);
 
-/* gpio_ioctl_pull_en - enable pull up (input)
+/* gpio_ioctl_pull_en - enable pull (input)
  * @param obj gpio object pointer
  * @param updown (DOWN or UP) or (0,1)
  */
 void gpio_ioctl_pull_en(gpio_t *obj, int updown);
+
+/* gpio_ioctl_pull_dis - dissable pull
+ * &param obj 	gpio object pointer
+ */
+void gpio_ioctl_pull_dis(gpio_t *obj);
+
+/* gpio_ioctl_int_en - enable interrupt (input)
+ * @param obj 	gpio object pointer
+ * @param edge	edge to trigger interrupt (RISING or FALLING)
+ */
+void gpio_ioctl_int_en(gpio_t *obj, int edge);
+
+/* gpio_ioctl_int_dis - disable interrupt (input)
+ * @param obj 	gpio object pointer
+ */
+void gpio_ioctl_int_dis(gpio_t *obj);
 
 /* gpio_write - write to GPIO pin (sets PxOUT register)
  * @param obj gpio object pointer
